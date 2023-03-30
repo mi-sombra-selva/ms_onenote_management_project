@@ -7,7 +7,7 @@ namespace OneNoteManagementApp
         public static void Main()
         {
             var manager = new OneNoteFileManager();
-            manager.PrintFileContentsToConsole(@"C:\Users\userselva\Documents\OneNote Notebooks\Aspose_example\New Section 1.one");
+            manager.PrintFileContentsToConsole(@".\..\..\..\..\TestData\example\I_m_section.one");
         }
     }
 }
