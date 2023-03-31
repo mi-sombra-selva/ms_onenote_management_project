@@ -61,6 +61,12 @@ namespace OneNoteFile.FileNodeStructure
                 case FileNodeIDValues.RootObjectReference3FND:
                     fnd = new RootObjectReference3FND();
                     break;
+                case FileNodeIDValues.RevisionRoleDeclarationFND:
+                    fnd = new RevisionRoleDeclarationFND();
+                    break;
+                case FileNodeIDValues.RevisionRoleAndContextDeclarationFND:
+                    fnd = new RevisionRoleAndContextDeclarationFND();
+                    break;
                 case FileNodeIDValues.ObjectInfoDependencyOverridesFND:
                     fnd = new ObjectInfoDependencyOverridesFND(StpFormat, CbFormat);
                     break;

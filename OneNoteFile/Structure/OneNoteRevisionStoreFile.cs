@@ -3,9 +3,9 @@
     internal class OneNoteRevisionStoreFile
     {
         internal static Dictionary<uint, uint> FileNodeCountMapping = new Dictionary<uint, uint>();
+        internal static bool IsEncryption = false;
 
         internal Header Header { get; set; }
-
         internal RootFileNodeList RootFileNodeList { get; set; }
 
         public OneNoteRevisionStoreFile()
@@ -13,6 +13,7 @@
             FileNodeCountMapping.Clear();
 
             FileNodeCountMapping = new Dictionary<uint, uint>();
+            IsEncryption = false;
         }
 
         internal void DoDeserializeFromByteArray(byte[] byteArray)

@@ -1,4 +1,6 @@
-﻿using OneNoteFile.Structure.Other;
+﻿using OneNoteFile.Structure;
+using OneNoteFile.Structure.Other;
+using OneNoteFile.Structure.Other.ObjectSpaceObject;
 using OneNoteFile.Types;
 
 namespace OneNoteFile.FileNodeStructure.Types
@@ -11,6 +13,7 @@ namespace OneNoteFile.FileNodeStructure.Types
         internal FileNodeChunkReference BlobRef { get; set; }
         internal ObjectDeclaration2Body body { get; set; }
         internal byte cRef { get; set; }
+        internal ObjectSpaceObjectPropSet PropertySet { get; set; }
 
         internal ObjectDeclaration2RefCountFND(uint stpFormat, uint cbFormat)
         {
@@ -30,6 +33,11 @@ namespace OneNoteFile.FileNodeStructure.Types
             cRef = byteArray[index];
             index += 1;
 
+            if (OneNoteRevisionStoreFile.IsEncryption == false)
+            {
+                PropertySet = new ObjectSpaceObjectPropSet();
+                PropertySet.DoDeserializeFromByteArray(byteArray, (int)BlobRef.StpValue);
+            }
             return index - startIndex;
         }
     }

@@ -1,57 +1,100 @@
 ﻿using OneNoteFile.FileNodeStructure.Types;
 using OneNoteFile.Structure;
+using OneNoteFile.Structure.Other;
+using OneNoteFile.Structure.Other.Property;
+using System.Text;
 
 namespace OneNoteManagementLibrary
 {
     /// <summary>
-    /// Implementation of the IOneNoteFileManager interface that uses the standard System.IO library to perform file operations.
+    /// Implementation for interacting with a OneNote document file.
     /// </summary>
     public class OneNoteFileManager : IOneNoteFileManager
     {
+        private readonly string _filePath;
+        private OneNoteRevisionStoreFile _file { get; set; } = new OneNoteRevisionStoreFile();
+
         /// <summary>
-        /// Create the OneNote with the specified name.
+        /// Initializes a new instance of the <see cref="OneNoteFileManager"/> class with the specified file path.
         /// </summary>
-        /// <param name="fileName">Name of the file to create.</param>
-        /// <returns>True if the file was successfully created, false otherwise.</returns>
-        public bool CreateFile(string fileName)
+        /// <param name="filePath">The file path of the OneNote document.</param>
+        public OneNoteFileManager(string filePath)
         {
-            throw new NotImplementedException();
+            _filePath = filePath;
         }
 
         /// <summary>
-        /// Delete the OneNote file with the specified name.
+        /// Opens a OneNote document from a specified file path.
         /// </summary>
-        /// <param name="fileName">Name of the file to delete.</param>
-        /// <returns>True if the file was successfully deleted, false otherwise.</returns>
-        public bool DeleteFile(string fileName)
+        /// <param name="filePath">The file path of the OneNote document.</param>
+        public void Open()
         {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Print the contents of the OneNote with the specified name to the console.
-        /// </summary>
-        /// <param name="fileName">Name of the file to print.</param>
-        public void PrintFileContentsToConsole(string fileName)
-        {
-            var buffer = File.ReadAllBytes(fileName);
-            var oneNoteFile = new OneNoteRevisionStoreFile();
-            oneNoteFile.DoDeserializeFromByteArray(buffer);
-
-            foreach (var item in oneNoteFile.RootFileNodeList
-                                            .ObjectSpaceManifestList.FirstOrDefault()
-                                            .RevisionManifestList.FirstOrDefault()
-                                            .ObjectGroupList)
+            if (!File.Exists(_filePath))
             {
-                foreach (var fileNode in item.FileNodeSequence)
+                throw new FileNotFoundException("OneNote file not found.", _filePath);
+            }
+
+            var buffer = File.ReadAllBytes(_filePath);
+            _file = new OneNoteRevisionStoreFile();
+            _file.DoDeserializeFromByteArray(buffer);
+        }
+
+        /// <summary>
+        /// Gets the text content of all text containers in the current OneNote document.
+        /// </summary>
+        /// <returns>An enumerable collection of strings representing the text content of all text containers.</returns>
+        public IEnumerable<string> GetTextContent()
+        {
+            var result = new List<string>();
+
+            var objectSpaceManifestListReferenceFND = _file.RootFileNodeList.ObjectSpaceManifestList.SelectMany(osm => osm.RevisionManifestList).ToList();
+            var revisionManifestListReferenceFND = objectSpaceManifestListReferenceFND.SelectMany(rm => rm.ObjectGroupList).ToList();
+            var objectDeclaration2RefCountFNDList = revisionManifestListReferenceFND.SelectMany(og => og.FileNodeSequence)
+                                                                                .Where(fileNode => fileNode.fnd is ObjectDeclaration2RefCountFND)
+                                                                                .ToList();
+
+            foreach (var od2rc in objectDeclaration2RefCountFNDList)
+            {
+                var rightFormat = (ObjectDeclaration2RefCountFND)od2rc.fnd;
+                if ((JCIDType)rightFormat.body.jcid.Index is JCIDType.PageObjectMetaData)
                 {
-                    var fileNodeRightFormat = fileNode.fnd as ObjectDeclaration2RefCountFND;
-                    if (fileNodeRightFormat != null)
+                    var rgDataList = rightFormat.PropertySet.Body.RgData;
+                    foreach (var rgData in rgDataList)
                     {
-                        var bla = 123;
+                        if (rgData as PrtFourBytesOfLengthFollowedByData != null)
+                        {
+                            result.Add(Encoding.UTF8.GetString(((PrtFourBytesOfLengthFollowedByData)rgData).Data));
+                        }
                     }
                 }
             }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Inserts text into a OneNote page.
+        /// </summary>
+        /// <param name="text">The text to insert into the page.</param>
+        public void InsertText(string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Saves the current OneNote document.
+        /// </summary>
+        public void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Closes the current OneNote document.
+        /// </summary>
+        public void Close()
+        {
+            throw new NotImplementedException();
         }
     }
 }

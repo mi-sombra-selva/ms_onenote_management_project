@@ -1,4 +1,4 @@
-﻿using OneNoteFile.Structure.Other;
+﻿using OneNoteFile.Structure.Other.ObjectInfoDependency;
 using OneNoteFile.Types;
 
 namespace OneNoteFile.FileNodeStructure.Types

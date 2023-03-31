@@ -6,8 +6,14 @@ namespace OneNoteManagementApp
     {
         public static void Main()
         {
-            var manager = new OneNoteFileManager();
-            manager.PrintFileContentsToConsole(@".\..\..\..\..\TestData\example\I_m_section.one");
+            IOneNoteFileManager manager = new OneNoteFileManager(@".\..\..\..\..\TestData\example\New Section.one");
+            manager.Open();
+            var allTextContent = manager.GetTextContent();
+
+            foreach (var textContent in allTextContent) 
+            {
+                Console.WriteLine(textContent);
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using OneNoteFile.Types;
 
-namespace OneNoteFile.Structure.Other
+namespace OneNoteFile.Structure.Other.ObjectInfoDependency
 {
     internal class ObjectInfoDependencyOverride32
     {

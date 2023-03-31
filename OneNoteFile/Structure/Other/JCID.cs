@@ -4,19 +4,13 @@ namespace OneNoteFile.Structure.Other
 {
     internal class JCID
     {
-        public int Index { get; set; }
-
-        public int IsBinary { get; set; }
-
-        public int IsPropertySet { get; set; }
-
-        public int IsGraphNode { get; set; }
-
-        public int IsFileData { get; set; }
-
-        public int IsReadOnly { get; set; }
-
-        public int Reserved { get; set; }
+        internal int Index { get; set; }
+        internal int IsBinary { get; set; }
+        internal int IsPropertySet { get; set; }
+        internal int IsGraphNode { get; set; }
+        internal int IsFileData { get; set; }
+        internal int IsReadOnly { get; set; }
+        internal int Reserved { get; set; }
 
         internal int DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
         {

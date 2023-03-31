@@ -1,28 +1,35 @@
 ﻿namespace OneNoteManagementLibrary
 {
     /// <summary>
-    /// Interface for managing the OneNote.
+    /// Interface for interacting with a OneNote document file.
     /// </summary>
     public interface IOneNoteFileManager
     {
         /// <summary>
-        /// Create the OneNote with the specified name.
+        /// Opens a OneNote document from a specified file path.
         /// </summary>
-        /// <param name="fileName">Name of the file to create.</param>
-        /// <returns>True if the file was successfully created, false otherwise.</returns>
-        public bool CreateFile(string fileName);
+        void Open();
 
         /// <summary>
-        /// Delete the OneNote with the specified name.
+        /// Saves the current OneNote document.
         /// </summary>
-        /// <param name="fileName">Name of the file to delete.</param>
-        /// <returns>True if the file was successfully deleted, false otherwise.</returns>
-        public bool DeleteFile(string fileName);
+        void Save();
 
         /// <summary>
-        /// Print the contents of the OneNote with the specified name to the console.
+        /// Closes the current OneNote document.
         /// </summary>
-        /// <param name="fileName">Name of the file to print.</param>
-        public void PrintFileContentsToConsole(string fileName);
+        void Close();
+
+        /// <summary>
+        /// Inserts text into a OneNote page.
+        /// </summary>
+        /// <param name="text">The text to insert into the page.</param>
+        void InsertText(string text);
+
+        /// <summary>
+        /// Gets the text content of all text containers in the current OneNote document.
+        /// </summary>
+        /// <returns>An enumerable collection of strings representing the text content of all text containers.</returns>
+        IEnumerable<string> GetTextContent();
     }
 }
