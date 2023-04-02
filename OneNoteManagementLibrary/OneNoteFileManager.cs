@@ -11,6 +11,8 @@ namespace OneNoteManagementLibrary
     /// </summary>
     public class OneNoteFileManager : IOneNoteFileManager
     {
+        private readonly static byte[] foundDateTimeData = new byte[5] { 0,0,0,0,3 };
+
         private readonly string _filePath;
         private OneNoteRevisionStoreFile _file { get; set; } = new OneNoteRevisionStoreFile();
 
@@ -62,7 +64,12 @@ namespace OneNoteManagementLibrary
                     {
                         if (rgData as PrtFourBytesOfLengthFollowedByData != null)
                         {
-                            result.Add(Encoding.UTF8.GetString(((PrtFourBytesOfLengthFollowedByData)rgData).Data));
+                            var textData = ((PrtFourBytesOfLengthFollowedByData)rgData).Data;
+                            if (textData.SequenceEqual(foundDateTimeData))
+                            {
+                                break; // If such a byte array is found in PropertySet, then there will be information about the date and time of the elements ahead.
+                            }
+                            result.Add(Encoding.UTF8.GetString(textData));
                         }
                     }
                 }
