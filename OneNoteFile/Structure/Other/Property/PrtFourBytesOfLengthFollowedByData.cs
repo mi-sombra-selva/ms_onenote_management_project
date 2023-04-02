@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace OneNoteFile.Structure.Other.Property
+﻿namespace OneNoteFile.Structure.Other.Property
 {
     internal class PrtFourBytesOfLengthFollowedByData : IProperty
     {

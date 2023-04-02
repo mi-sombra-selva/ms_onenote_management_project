@@ -17,3 +17,4 @@ using System.Runtime.InteropServices;
 [assembly: Guid("a15e9556-13ac-4c1f-8d97-8ecdb35cfc02")]
 
 [assembly: InternalsVisibleTo("OneNoteFile")]
+[assembly: InternalsVisibleTo("BitManipulator.Tests")]

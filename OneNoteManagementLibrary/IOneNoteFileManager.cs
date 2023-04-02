@@ -6,7 +6,7 @@
     public interface IOneNoteFileManager
     {
         /// <summary>
-        /// Opens a OneNote document from a specified file path.
+        /// Opens a OneNote document.
         /// </summary>
         void Open();
 

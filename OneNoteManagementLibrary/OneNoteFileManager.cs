@@ -24,9 +24,8 @@ namespace OneNoteManagementLibrary
         }
 
         /// <summary>
-        /// Opens a OneNote document from a specified file path.
+        /// Opens a OneNote document.
         /// </summary>
-        /// <param name="filePath">The file path of the OneNote document.</param>
         public void Open()
         {
             if (!File.Exists(_filePath))
@@ -55,10 +54,10 @@ namespace OneNoteManagementLibrary
 
             foreach (var od2rc in objectDeclaration2RefCountFNDList)
             {
-                var rightFormat = (ObjectDeclaration2RefCountFND)od2rc.fnd;
-                if ((JCIDType)rightFormat.body.jcid.Index is JCIDType.PageObjectMetaData)
+                var fileNodeCast = (ObjectDeclaration2RefCountFND)od2rc.fnd;
+                if ((JCIDType)fileNodeCast.body.jcid.Index is JCIDType.PageObjectMetaData)
                 {
-                    var rgDataList = rightFormat.PropertySet.Body.RgData;
+                    var rgDataList = fileNodeCast.PropertySet.Body.RgData;
                     foreach (var rgData in rgDataList)
                     {
                         if (rgData as PrtFourBytesOfLengthFollowedByData != null)

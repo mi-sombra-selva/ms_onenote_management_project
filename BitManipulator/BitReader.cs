@@ -39,7 +39,7 @@ namespace BitManipulator
             return unchecked((int)ConvertFromBytes(uint32Bytes, 0, 4));
         }
 
-        private byte[] GetBytes(int needReadlength, int size)
+        internal byte[] GetBytes(int needReadlength, int size)
         {
             var retBytes = new byte[size];
             var i = 0;
@@ -64,7 +64,8 @@ namespace BitManipulator
 
             return retBytes;
         }
-        private static ulong ConvertFromBytes(byte[] buffer, int startIndex, int bytesToConvert)
+
+        internal static ulong ConvertFromBytes(byte[] buffer, int startIndex, int bytesToConvert)
         {
             ulong ret = 0;
             var bitCount = 0;
