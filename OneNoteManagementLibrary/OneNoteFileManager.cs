@@ -1,7 +1,8 @@
-﻿using OneNoteFile.FileNodeStructure.Types;
-using OneNoteFile.Structure;
-using OneNoteFile.Structure.Other;
-using OneNoteFile.Structure.Other.Property;
+﻿using OneNoteFile.Model.Structure;
+using OneNoteFile.Model.Structure.FileNodeStructure.Types;
+using OneNoteFile.Model.Structure.Other;
+using OneNoteFile.Model.Structure.Other.Property;
+using OneNoteFile.Parser;
 using System.Text;
 
 namespace OneNoteManagementLibrary
@@ -14,6 +15,7 @@ namespace OneNoteManagementLibrary
         private readonly static byte[] foundDateTimeData = new byte[5] { 0,0,0,0,3 };
 
         private readonly string _filePath;
+        private readonly IOneNoteFileParserLogic _logic;
         private OneNoteRevisionStoreFile _file { get; set; } = new OneNoteRevisionStoreFile();
 
         /// <summary>
@@ -23,6 +25,7 @@ namespace OneNoteManagementLibrary
         public OneNoteFileManager(string filePath)
         {
             _filePath = filePath;
+            _logic = new BinaryOneNoteFileParserLogic();
         }
 
         /// <summary>
@@ -36,8 +39,8 @@ namespace OneNoteManagementLibrary
             }
 
             var buffer = File.ReadAllBytes(_filePath);
-            _file = new OneNoteRevisionStoreFile();
-            _file.DoDeserializeFromByteArray(buffer);
+            var parser = new OneNoteFileParser(_logic);
+            _file = parser.Parse(buffer);
         }
 
         /// <summary>
@@ -48,9 +51,9 @@ namespace OneNoteManagementLibrary
         {
             var result = new List<string>();
 
-            var objectSpaceManifestListReferenceFND = _file.RootFileNodeList.ObjectSpaceManifestList.SelectMany(osm => osm.RevisionManifestList).ToList();
-            var revisionManifestListReferenceFND = objectSpaceManifestListReferenceFND.SelectMany(rm => rm.ObjectGroupList).ToList();
-            var objectDeclaration2RefCountFNDList = revisionManifestListReferenceFND.SelectMany(og => og.FileNodeSequence)
+            var objectDeclaration2RefCountFNDList = _file.RootFileNodeList.ObjectSpaceManifestList.SelectMany(osm => osm.RevisionManifestList)
+                                                                                .SelectMany(rm => rm.ObjectGroupList)
+                                                                                .SelectMany(og => og.FileNodeSequence)
                                                                                 .Where(fileNode => fileNode.fnd is ObjectDeclaration2RefCountFND)
                                                                                 .ToList();
 
