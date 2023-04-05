@@ -12,13 +12,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneNoteFile", "OneNoteFile\OneNoteFile.csproj", "{D049607E-7796-48C5-A767-697F320B32FC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BitManipulator", "BitManipulator\BitManipulator.csproj", "{7C01C9E6-DBF9-4B1B-BEE5-9064FCDBA2C9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8F6586DC-4F84-4CD7-AA9A-E81851864C7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitManipulator.Tests", "BitManipulator.Tests\BitManipulator.Tests.csproj", "{8521E8BE-91CD-400D-9BD6-3952BC55D575}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BitManipulator.Tests", "BitManipulator.Tests\BitManipulator.Tests.csproj", "{8521E8BE-91CD-400D-9BD6-3952BC55D575}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteFile.Model", "OneNoteFile.Model\OneNoteFile.Model.csproj", "{CC57008E-2268-42EC-BFBE-2B26F5DD95AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneNoteFile.Parser", "OneNoteFile.Parser\OneNoteFile.Parser.csproj", "{7CBD3C5B-E67E-4708-BEEF-EB0745C7E97A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,10 +36,6 @@ Global
 		{EB1765C9-18B0-4C17-9494-D77926CF0674}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB1765C9-18B0-4C17-9494-D77926CF0674}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB1765C9-18B0-4C17-9494-D77926CF0674}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D049607E-7796-48C5-A767-697F320B32FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D049607E-7796-48C5-A767-697F320B32FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D049607E-7796-48C5-A767-697F320B32FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D049607E-7796-48C5-A767-697F320B32FC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7C01C9E6-DBF9-4B1B-BEE5-9064FCDBA2C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7C01C9E6-DBF9-4B1B-BEE5-9064FCDBA2C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C01C9E6-DBF9-4B1B-BEE5-9064FCDBA2C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -46,6 +44,14 @@ Global
 		{8521E8BE-91CD-400D-9BD6-3952BC55D575}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8521E8BE-91CD-400D-9BD6-3952BC55D575}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8521E8BE-91CD-400D-9BD6-3952BC55D575}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC57008E-2268-42EC-BFBE-2B26F5DD95AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC57008E-2268-42EC-BFBE-2B26F5DD95AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC57008E-2268-42EC-BFBE-2B26F5DD95AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC57008E-2268-42EC-BFBE-2B26F5DD95AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CBD3C5B-E67E-4708-BEEF-EB0745C7E97A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CBD3C5B-E67E-4708-BEEF-EB0745C7E97A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CBD3C5B-E67E-4708-BEEF-EB0745C7E97A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CBD3C5B-E67E-4708-BEEF-EB0745C7E97A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

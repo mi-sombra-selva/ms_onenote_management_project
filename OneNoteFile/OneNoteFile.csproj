@@ -10,4 +10,9 @@
     <ProjectReference Include="..\BitManipulator\BitManipulator.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\" />
+    <Folder Include="Parser\" />
+  </ItemGroup>
+
 </Project>

@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\OneNoteFile.Model\OneNoteFile.Model.csproj" />
-    <ProjectReference Include="..\OneNoteFile.Parser\OneNoteFile.Parser.csproj" />
-  </ItemGroup>
-
 </Project>

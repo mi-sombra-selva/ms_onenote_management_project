@@ -14,7 +14,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM.
 
-[assembly: Guid("a15e9556-13ac-4c1f-8d97-8ecdb35cfc02")]
+[assembly: Guid("384fe667-a4f9-4863-ad26-2c6a478692fa")]
 
 [assembly: InternalsVisibleTo("OneNoteFile.Parser")]
-[assembly: InternalsVisibleTo("BitManipulator.Tests")]
+[assembly: InternalsVisibleTo("OneNoteManagementLibrary")]
