@@ -5,25 +5,25 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.Other.ObjectSpaceObject
 {
     internal class ObjectSpaceObjectPropSetParser
     {
-        internal static ObjectSpaceObjectPropSet DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal static ObjectSpaceObjectPropSet DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var objectSpaceObjectPropSet = new ObjectSpaceObjectPropSet();
             var index = startIndex;
-            objectSpaceObjectPropSet.OIDs = ObjectSpaceObjectStreamOfOIDsParser.DoDeserializeFromByteArray(byteArray, index);
+            objectSpaceObjectPropSet.OIDs = ObjectSpaceObjectStreamOfOIDsParser.DoDeserializeFromByteArray(reader, index);
             index += objectSpaceObjectPropSet.OIDs.Size;
             if (objectSpaceObjectPropSet.OIDs.Header.OsidStreamNotPresent == 0)
             {
-                objectSpaceObjectPropSet.OSIDs = ObjectSpaceObjectStreamOfOSIDsParser.DoDeserializeFromByteArray(byteArray, index);
+                objectSpaceObjectPropSet.OSIDs = ObjectSpaceObjectStreamOfOSIDsParser.DoDeserializeFromByteArray(reader, index);
                 index += objectSpaceObjectPropSet.OSIDs.Size;
 
                 if (objectSpaceObjectPropSet.OSIDs.Header.ExtendedStreamsPresent == 1)
                 {
-                    objectSpaceObjectPropSet.ContextIDs = ObjectSpaceObjectStreamOfContextIDsParser.DoDeserializeFromByteArray(byteArray, index);
+                    objectSpaceObjectPropSet.ContextIDs = ObjectSpaceObjectStreamOfContextIDsParser.DoDeserializeFromByteArray(reader, index);
                     index += objectSpaceObjectPropSet.ContextIDs.Size;
                 }
             }
 
-            objectSpaceObjectPropSet.Body = new PropertySetParser().DoDeserializeFromByteArray(byteArray, index);
+            objectSpaceObjectPropSet.Body = new PropertySetParser().DoDeserializeFromByteArray(reader, index);
             index += objectSpaceObjectPropSet.Body.Size;
 
             var paddingLength = 8 - (index - startIndex) % 8;

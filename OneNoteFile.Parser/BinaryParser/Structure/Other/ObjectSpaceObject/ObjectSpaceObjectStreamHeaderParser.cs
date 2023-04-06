@@ -5,10 +5,10 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.Other.ObjectSpaceObject
 {
     internal class ObjectSpaceObjectStreamHeaderParser
     {
-        internal static ObjectSpaceObjectStreamHeader DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal static ObjectSpaceObjectStreamHeader DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var objectSpaceObjectStreamHeader = new ObjectSpaceObjectStreamHeader();
-            using (var bitReader = new BitReader(byteArray, startIndex))
+            using (var bitReader = new BitReader(reader, startIndex))
             {
                 objectSpaceObjectStreamHeader.Count = bitReader.ReadUInt32(24);
                 objectSpaceObjectStreamHeader.Reserved = bitReader.ReadInt32(6);

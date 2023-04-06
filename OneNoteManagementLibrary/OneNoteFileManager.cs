@@ -38,9 +38,11 @@ namespace OneNoteManagementLibrary
                 throw new FileNotFoundException("OneNote file not found.", _filePath);
             }
 
-            var buffer = File.ReadAllBytes(_filePath);
             var parser = new OneNoteFileParser(_logic);
-            _file = parser.Parse(buffer);
+
+            using var stream = new FileStream(_filePath, FileMode.Open, FileAccess.Read);
+            using var reader = new BinaryReader(stream);
+            _file = parser.Parse(reader);
         }
 
         /// <summary>

@@ -4,10 +4,10 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure.Types
 {
     internal class GlobalIdTableEntryFNDXParser : FileNodeBaseParser
     {
-        internal override GlobalIdTableEntryFNDX DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal override GlobalIdTableEntryFNDX DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var globalIdTableEntryFNDX = new GlobalIdTableEntryFNDX();
-            globalIdTableEntryFNDX.index = BitConverter.ToUInt32(byteArray, startIndex);
+            globalIdTableEntryFNDX.index = reader.ReadUInt32FromPosition(startIndex);
             return globalIdTableEntryFNDX;
         }
     }

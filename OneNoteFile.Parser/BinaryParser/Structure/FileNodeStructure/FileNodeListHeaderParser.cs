@@ -4,15 +4,15 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure
 {
     internal class FileNodeListHeaderParser
     {
-        internal static FileNodeListHeader DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal static FileNodeListHeader DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var fileNodeListHeader = new FileNodeListHeader();
             var index = startIndex;
-            fileNodeListHeader.uintMagic = BitConverter.ToUInt64(byteArray, index);
+            fileNodeListHeader.uintMagic = reader.ReadUInt64FromPosition(index);
             index += FileNodeListHeader.uintMagicSize;
-            fileNodeListHeader.FileNodeListID = BitConverter.ToUInt32(byteArray, index);
+            fileNodeListHeader.FileNodeListID = reader.ReadUInt32FromPosition(index);
             index += FileNodeListHeader.FileNodeListIDSize;
-            fileNodeListHeader.nFragmentSequence = BitConverter.ToUInt32(byteArray, index);
+            fileNodeListHeader.nFragmentSequence = reader.ReadUInt32FromPosition(index);
             return fileNodeListHeader;
         }
     }

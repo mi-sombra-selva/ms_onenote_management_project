@@ -2,9 +2,10 @@
 {
     internal static class Bit
     {
-        internal static bool IsBitSet(byte[] array, long bit)
+        internal static bool IsBitSet(BinaryReader reader, long bit)
         {
-            return (array[bit / 8] & 1 << (int)(bit % 8)) != 0;
+            reader.BaseStream.Position = bit / 8;
+            return (reader.ReadByte() & 1 << (int)(bit % 8)) != 0;
         }
 
         internal static void SetBit(byte[] array, long bit)

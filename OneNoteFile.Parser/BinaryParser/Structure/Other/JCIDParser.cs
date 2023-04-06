@@ -5,10 +5,10 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.Other
 {
     internal class JCIDParser
     {
-        internal static JCID DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal static JCID DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var jcid = new JCID();
-            using (var bitReader = new BitReader(byteArray, startIndex))
+            using (var bitReader = new BitReader(reader, startIndex))
             {
                 jcid.Index = bitReader.ReadInt32(16);
                 jcid.IsBinary = bitReader.ReadInt32(1);

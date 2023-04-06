@@ -5,10 +5,10 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure.Types
 {
     internal class ObjectGroupStartFNDParser : FileNodeBaseParser
     {
-        internal override ObjectGroupStartFND DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal override ObjectGroupStartFND DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var objectGroupStartFND = new ObjectGroupStartFND();
-            objectGroupStartFND.oid = ExtendedGUIDParser.DoDeserializeFromByteArray(byteArray, startIndex);
+            objectGroupStartFND.oid = ExtendedGUIDParser.DoDeserializeFromByteArray(reader, startIndex);
             return objectGroupStartFND;
         }
     }

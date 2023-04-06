@@ -8,19 +8,19 @@ namespace OneNoteFile.Parser.BinaryParser.Structure
 {
     internal class RootFileNodeListParser
     {
-        internal static RootFileNodeList DoDeserializeFromByteArray(byte[] byteArray, FileChunkReference64x32 reference)
+        internal static RootFileNodeList DoDeserializeFromByteArray(BinaryReader reader, FileChunkReference64x32 reference)
         {
             var rootFileNodeList = new RootFileNodeList();
 
             var fragmentParser = new FileNodeListFragmentParser(reference.Cb);
-            var fragment = fragmentParser.DoDeserializeFromByteArray(byteArray, (int)reference.Stp);
+            var fragment = fragmentParser.DoDeserializeFromByteArray(reader, (int)reference.Stp);
             rootFileNodeList.FileNodeListFragments.Add(fragment);
             rootFileNodeList.FileNodeSequence.AddRange(fragment.rgFileNodes.Where(f => f.FileNodeID != FileNodeIDValues.ChunkTerminatorFND));
             var nextFragmentRef = fragment.nextFragment;
             while (nextFragmentRef.IsfcrNil() == false && nextFragmentRef.IsfcrZero() == false)
             {
                 var nextFragmentParser = new FileNodeListFragmentParser(nextFragmentRef.Cb);
-                var nextFragment = nextFragmentParser.DoDeserializeFromByteArray(byteArray, (int)nextFragmentRef.Stp);
+                var nextFragment = nextFragmentParser.DoDeserializeFromByteArray(reader, (int)nextFragmentRef.Stp);
                 nextFragmentRef = nextFragment.nextFragment;
                 rootFileNodeList.FileNodeListFragments.Add(nextFragment);
                 rootFileNodeList.FileNodeSequence.AddRange(nextFragment.rgFileNodes.Where(f => f.FileNodeID != FileNodeIDValues.ChunkTerminatorFND));
@@ -30,7 +30,7 @@ namespace OneNoteFile.Parser.BinaryParser.Structure
             foreach (var node in objectSpaceManifestListReferences)
             {
                 var objectSpaceManifestListReference = node.fnd as ObjectSpaceManifestListReferenceFND;
-                var objectSpaceManifestList = ObjectSpaceManifestListParser.DoDeserializeFromByteArray(byteArray, objectSpaceManifestListReference.refField);
+                var objectSpaceManifestList = ObjectSpaceManifestListParser.DoDeserializeFromByteArray(reader, objectSpaceManifestListReference.refField);
                 rootFileNodeList.ObjectSpaceManifestList.Add(objectSpaceManifestList);
             }
 

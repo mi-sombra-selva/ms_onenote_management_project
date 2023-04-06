@@ -14,13 +14,13 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure.Types
             this.cbFormat = cbFormat;
         }
 
-        internal override ObjectGroupListReferenceFND DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal override ObjectGroupListReferenceFND DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var objectGroupListReferenceFND = new ObjectGroupListReferenceFND();
             var index = startIndex;
-            objectGroupListReferenceFND.Ref = new FileNodeChunkReferenceParser(stpFormat, cbFormat).DoDeserializeFromByteArray(byteArray, index);
+            objectGroupListReferenceFND.Ref = new FileNodeChunkReferenceParser(stpFormat, cbFormat).DoDeserializeFromByteArray(reader, index);
             index += objectGroupListReferenceFND.Ref.Size;
-            objectGroupListReferenceFND.ObjectGroupID = ExtendedGUIDParser.DoDeserializeFromByteArray(byteArray, index);
+            objectGroupListReferenceFND.ObjectGroupID = ExtendedGUIDParser.DoDeserializeFromByteArray(reader, index);
             return objectGroupListReferenceFND;
         }
     }

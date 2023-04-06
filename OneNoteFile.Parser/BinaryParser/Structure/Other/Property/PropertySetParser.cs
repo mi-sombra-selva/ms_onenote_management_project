@@ -4,16 +4,16 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.Other.Property
 {
     internal class PropertySetParser : PropertyParser
     {
-        internal override PropertySet DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal override PropertySet DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var propertySet = new PropertySet();
             var index = startIndex;
-            propertySet.CProperties = BitConverter.ToUInt16(byteArray, index);
+            propertySet.CProperties = reader.ReadUInt16FromPosition(index);
             index += 2;
             propertySet.RgPrids = new PropertyID[propertySet.CProperties];
             for (var i = 0; i < propertySet.CProperties; i++)
             {
-                var propertyID = PropertyIDParser.DoDeserializeFromByteArray(byteArray, index);
+                var propertyID = PropertyIDParser.DoDeserializeFromByteArray(reader, index);
                 propertySet.RgPrids[i] = propertyID;
                 index += PropertyID.totalSize;
             }
@@ -61,7 +61,7 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.Other.Property
                 }
                 if (propertyParser != null)
                 {
-                    var property = propertyParser.DoDeserializeFromByteArray(byteArray, index);
+                    var property = propertyParser.DoDeserializeFromByteArray(reader, index);
                     propertySet.RgData.Add(property);
                     index += property.Size;
                 }

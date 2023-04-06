@@ -15,13 +15,13 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure.Types
             this.cbFormat = cbFormat;
         }
 
-        internal override ObjectInfoDependencyOverridesFND DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal override ObjectInfoDependencyOverridesFND DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var objectInfoDependencyOverridesFND = new ObjectInfoDependencyOverridesFND();
             var index = startIndex;
-            objectInfoDependencyOverridesFND.Ref = new FileNodeChunkReferenceParser(stpFormat, cbFormat).DoDeserializeFromByteArray(byteArray, index);
+            objectInfoDependencyOverridesFND.Ref = new FileNodeChunkReferenceParser(stpFormat, cbFormat).DoDeserializeFromByteArray(reader, index);
             index += objectInfoDependencyOverridesFND.Ref.Size;
-            objectInfoDependencyOverridesFND.data = ObjectInfoDependencyOverrideDataParser.DoDeserializeFromByteArray(byteArray, index);
+            objectInfoDependencyOverridesFND.data = ObjectInfoDependencyOverrideDataParser.DoDeserializeFromByteArray(reader, index);
             return objectInfoDependencyOverridesFND;
         }
     }

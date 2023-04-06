@@ -4,16 +4,6 @@
     public class BitTests
     {
         [TestMethod]
-        public void TestIsBitSet()
-        {
-            var array = new byte[] { 0x01, 0x02, 0x04, 0x08 };
-            Assert.IsTrue(Bit.IsBitSet(array, 0));
-            Assert.IsFalse(Bit.IsBitSet(array, 1));
-            Assert.IsTrue(Bit.IsBitSet(array, 9));
-            Assert.IsFalse(Bit.IsBitSet(array, 16));
-        }
-
-        [TestMethod]
         public void TestSetBit()
         {
             var array = new byte[] { 0x01, 0x02, 0x04, 0x08 };

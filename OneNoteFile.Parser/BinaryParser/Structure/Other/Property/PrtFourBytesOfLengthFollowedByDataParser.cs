@@ -4,16 +4,13 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.Other.Property
 {
     internal class PrtFourBytesOfLengthFollowedByDataParser : PropertyParser
     {
-        internal override PrtFourBytesOfLengthFollowedByData DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal override PrtFourBytesOfLengthFollowedByData DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var prtFourBytesOfLengthFollowedByData = new PrtFourBytesOfLengthFollowedByData();
             var index = startIndex;
-            prtFourBytesOfLengthFollowedByData.CB = BitConverter.ToUInt32(byteArray, index);
+            prtFourBytesOfLengthFollowedByData.CB = reader.ReadUInt32FromPosition(index);
             index += 4;
-            prtFourBytesOfLengthFollowedByData.Data = new byte[prtFourBytesOfLengthFollowedByData.CB];
-            Array.Copy(byteArray, index, prtFourBytesOfLengthFollowedByData.Data, 0, prtFourBytesOfLengthFollowedByData.CB);
-            index += (int)prtFourBytesOfLengthFollowedByData.CB;
-
+            prtFourBytesOfLengthFollowedByData.Data = reader.ReadBytes(index, (int)prtFourBytesOfLengthFollowedByData.CB);
             return prtFourBytesOfLengthFollowedByData;
         }
     }

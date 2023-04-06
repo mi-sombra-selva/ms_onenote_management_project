@@ -13,13 +13,13 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure.Types
             this.cbFormat = cbFormat;
         }
 
-        internal override ObjectSpaceManifestListReferenceFND DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal override ObjectSpaceManifestListReferenceFND DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var objectSpaceManifestListReferenceFND = new ObjectSpaceManifestListReferenceFND();
             var index = startIndex;
-            objectSpaceManifestListReferenceFND.refField = new FileNodeChunkReferenceParser(stpFormat, cbFormat).DoDeserializeFromByteArray(byteArray, index);
+            objectSpaceManifestListReferenceFND.refField = new FileNodeChunkReferenceParser(stpFormat, cbFormat).DoDeserializeFromByteArray(reader, index);
             index += objectSpaceManifestListReferenceFND.refField.Size;
-            objectSpaceManifestListReferenceFND.gosid = ExtendedGUIDParser.DoDeserializeFromByteArray(byteArray, index);
+            objectSpaceManifestListReferenceFND.gosid = ExtendedGUIDParser.DoDeserializeFromByteArray(reader, index);
             return objectSpaceManifestListReferenceFND;
         }
     }

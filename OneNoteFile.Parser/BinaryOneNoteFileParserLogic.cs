@@ -5,9 +5,9 @@ namespace OneNoteFile.Parser
 {
     internal class BinaryOneNoteFileParserLogic : IOneNoteFileParserLogic
     {
-        public OneNoteRevisionStoreFile Parse(byte[] byteArray)
+        public OneNoteRevisionStoreFile Parse(BinaryReader reader)
         {
-            return OneNoteRevisionStoreFileParser.DoDeserializeFromByteArray(byteArray);
+            return OneNoteRevisionStoreFileParser.DoDeserializeFromByteArray(reader);
         }
     }
 }

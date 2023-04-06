@@ -14,10 +14,10 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure.Types
             this.cbFormat = cbFormat;
         }
 
-        internal override RevisionManifestListReferenceFND DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal override RevisionManifestListReferenceFND DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var revisionManifestListReferenceFND = new RevisionManifestListReferenceFND();
-            revisionManifestListReferenceFND.refField = new FileNodeChunkReferenceParser(stpFormat, cbFormat).DoDeserializeFromByteArray(byteArray, startIndex);
+            revisionManifestListReferenceFND.refField = new FileNodeChunkReferenceParser(stpFormat, cbFormat).DoDeserializeFromByteArray(reader, startIndex);
             return revisionManifestListReferenceFND;
         }
     }

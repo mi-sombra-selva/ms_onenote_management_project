@@ -4,28 +4,36 @@ namespace BitManipulator
 {
     internal sealed class BitReader : IEnumerator<bool>
     {
-        private byte[] byteArray;
-        private long startPosition;
-        private long offset;
-        private long length;
+        private readonly BinaryReader _reader;
+        private long _offset;
+        private readonly long _length;
+        private readonly long _startPosition;
 
-        internal BitReader(byte[] array, int index)
+        internal BitReader(BinaryReader reader, long index)
         {
-            byteArray = array;
-            offset = (long)index * 8 - 1;
-            startPosition = offset;
-            length = (long)array.Length * 8;
+            _reader = reader;
+            _offset = index;
+            _startPosition = index;
+            _length = reader.BaseStream.Length * 8;
         }
 
-        public bool Current => Bit.IsBitSet(byteArray, offset);
+        public bool Current => Bit.IsBitSet(_reader, _offset);
 
         object IEnumerator.Current => Current;
 
-        public void Dispose() => byteArray = null;
+        public void Dispose()
+        {
+        }
 
-        public bool MoveNext() => ++offset < length;
+        public bool MoveNext() => ++_offset < _length;
 
-        public void Reset() => offset = startPosition;
+        public void Reset() => _offset = _startPosition;
+
+        internal int ReadInt32(int readingLength)
+        {
+            var uint32Bytes = GetBytes(readingLength, 4);
+            return unchecked((int)ConvertFromBytes(uint32Bytes, 0, 4));
+        }
 
         internal uint ReadUInt32(int readingLength)
         {
@@ -33,10 +41,10 @@ namespace BitManipulator
             return unchecked((uint)ConvertFromBytes(uint32Bytes, 0, 4));
         }
 
-        internal int ReadInt32(int readingLength)
+        internal ulong ReadUInt64(int readingLength)
         {
-            var uint32Bytes = GetBytes(readingLength, 4);
-            return unchecked((int)ConvertFromBytes(uint32Bytes, 0, 4));
+            var uint64Bytes = GetBytes(readingLength, 8);
+            return unchecked(ConvertFromBytes(uint64Bytes, 0, 8));
         }
 
         internal byte[] GetBytes(int needReadlength, int size)

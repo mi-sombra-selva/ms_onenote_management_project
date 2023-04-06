@@ -8,18 +8,18 @@ namespace OneNoteFile.Parser.BinaryParser.Structure
 {
     internal class RevisionManifestListParser
     {
-        internal static RevisionManifestList DoDeserializeFromByteArray(byte[] byteArray, FileNodeChunkReference reference)
+        internal static RevisionManifestList DoDeserializeFromByteArray(BinaryReader reader, FileNodeChunkReference reference)
         {
             var revisionManifestList = new RevisionManifestList();
             var fragmentParser = new FileNodeListFragmentParser(reference.CbValue);
-            var fragment = fragmentParser.DoDeserializeFromByteArray(byteArray, (int)reference.StpValue);
+            var fragment = fragmentParser.DoDeserializeFromByteArray(reader, (int)reference.StpValue);
             revisionManifestList.FileNodeListFragments.Add(fragment);
             revisionManifestList.FileNodeSequence.AddRange(fragment.rgFileNodes.Where(f => f.FileNodeID != FileNodeIDValues.ChunkTerminatorFND));
             var nextFragmentRef = fragment.nextFragment;
             while (nextFragmentRef.IsfcrNil() == false && nextFragmentRef.IsfcrZero() == false)
             {
                 var nextFragmentParser = new FileNodeListFragmentParser(nextFragmentRef.Cb);
-                var nextFragment = nextFragmentParser.DoDeserializeFromByteArray(byteArray, (int)nextFragmentRef.Stp);
+                var nextFragment = nextFragmentParser.DoDeserializeFromByteArray(reader, (int)nextFragmentRef.Stp);
                 nextFragmentRef = nextFragment.nextFragment;
                 revisionManifestList.FileNodeListFragments.Add(nextFragment);
                 revisionManifestList.FileNodeSequence.AddRange(nextFragment.rgFileNodes.Where(f => f.FileNodeID != FileNodeIDValues.ChunkTerminatorFND));
@@ -30,7 +30,7 @@ namespace OneNoteFile.Parser.BinaryParser.Structure
                 if (fileNode.FileNodeID == FileNodeIDValues.ObjectGroupListReferenceFND)
                 {
                     var objectGroupListRef = fileNode.fnd as ObjectGroupListReferenceFND;
-                    var objectGroupList = ObjectGroupListParser.DoDeserializeFromByteArray(byteArray, objectGroupListRef.Ref);
+                    var objectGroupList = ObjectGroupListParser.DoDeserializeFromByteArray(reader, objectGroupListRef.Ref);
                     revisionManifestList.ObjectGroupList.Add(objectGroupList);
                 }
             }

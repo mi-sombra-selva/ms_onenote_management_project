@@ -6,12 +6,12 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure
 {
     internal class FileNodeParser
     {
-        public static FileNode DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        public static FileNode DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var fileNode = new FileNode();
 
             var index = startIndex;
-            using (var bitReader = new BitReader(byteArray, index))
+            using (var bitReader = new BitReader(reader, index))
             {
                 fileNode.FileNodeID = (FileNodeIDValues)bitReader.ReadUInt32(10);
                 fileNode.Size = bitReader.ReadUInt32(13);
@@ -88,7 +88,7 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure
             }
             if (fileNodeParser != null)
             {
-                fileNode.fnd = fileNodeParser.DoDeserializeFromByteArray(byteArray, index);
+                fileNode.fnd = fileNodeParser.DoDeserializeFromByteArray(reader, index);
             }
 
             return fileNode;

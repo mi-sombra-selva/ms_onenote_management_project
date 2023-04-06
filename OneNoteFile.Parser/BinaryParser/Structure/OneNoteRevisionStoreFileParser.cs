@@ -15,17 +15,17 @@ namespace OneNoteFile.Parser.BinaryParser.Structure
             IsEncryption = false;
         }
 
-        internal static OneNoteRevisionStoreFile DoDeserializeFromByteArray(byte[] byteArray)
+        internal static OneNoteRevisionStoreFile DoDeserializeFromByteArray(BinaryReader reader)
         {
             var oneNoteRevisionStoreFile = new OneNoteRevisionStoreFile();
 
             var index = 0;
-            oneNoteRevisionStoreFile.Header = HeaderParser.DoDeserializeFromByteArray(byteArray, index);
+            oneNoteRevisionStoreFile.Header = HeaderParser.DoDeserializeFromByteArray(reader, index);
 
             var transLogRef = oneNoteRevisionStoreFile.Header.fcrTransactionLog;
             do
             {
-                var transLogFragment = new TransactionLogFragmentParser(transLogRef.Cb).DoDeserializeFromByteArray(byteArray, (int)transLogRef.Stp);
+                var transLogFragment = new TransactionLogFragmentParser(transLogRef.Cb).DoDeserializeFromByteArray(reader, (int)transLogRef.Stp);
                 transLogRef = transLogFragment.nextFragment;
                 foreach (var entry in transLogFragment.sizeTable.Where(t => t.srcID != 0x00000001))
                 {
@@ -46,7 +46,7 @@ namespace OneNoteFile.Parser.BinaryParser.Structure
 
             if (oneNoteRevisionStoreFile.Header.fcrFileNodeListRoot.IsfcrNil() == false && oneNoteRevisionStoreFile.Header.fcrFileNodeListRoot.IsfcrZero() == false)
             {
-                oneNoteRevisionStoreFile.RootFileNodeList = RootFileNodeListParser.DoDeserializeFromByteArray(byteArray, oneNoteRevisionStoreFile.Header.fcrFileNodeListRoot);
+                oneNoteRevisionStoreFile.RootFileNodeList = RootFileNodeListParser.DoDeserializeFromByteArray(reader, oneNoteRevisionStoreFile.Header.fcrFileNodeListRoot);
             }
 
             return oneNoteRevisionStoreFile;

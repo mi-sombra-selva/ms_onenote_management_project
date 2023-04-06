@@ -11,7 +11,7 @@ namespace OneNoteFile.Parser.BinaryParser.Structure
             this.size = size;
         }
 
-        internal TransactionLogFragment DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal TransactionLogFragment DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var transactionLogFragment = new TransactionLogFragment();
 
@@ -21,11 +21,11 @@ namespace OneNoteFile.Parser.BinaryParser.Structure
 
             for (var i = 0; i < count; i++)
             {
-                transactionLogFragment.sizeTable[i] = TransactionEntryParser.DoDeserializeFromByteArray(byteArray, index);
+                transactionLogFragment.sizeTable[i] = TransactionEntryParser.DoDeserializeFromByteArray(reader, index);
                 index += TransactionEntry.totalSize;
             }
 
-            transactionLogFragment.nextFragment = new FileChunkReference64x32Parser().DoDeserializeFromByteArray(byteArray, index);
+            transactionLogFragment.nextFragment = new FileChunkReference64x32Parser().DoDeserializeFromByteArray(reader, index);
 
             return transactionLogFragment;
         }

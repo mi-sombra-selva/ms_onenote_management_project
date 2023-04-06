@@ -6,7 +6,7 @@ namespace OneNoteFile.Parser.BinaryParser.Structure
 {
     internal class HeaderParser
     {
-        internal static Header DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal static Header DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var header = new Header();
 
@@ -33,9 +33,9 @@ namespace OneNoteFile.Parser.BinaryParser.Structure
             index += 16; // guidAncestor
             index += 4; // crcName
             index += 12; // fcrHashedChunkList
-            header.fcrTransactionLog = new FileChunkReference64x32Parser().DoDeserializeFromByteArray(byteArray, index);
+            header.fcrTransactionLog = new FileChunkReference64x32Parser().DoDeserializeFromByteArray(reader, index);
             index += FileChunkReference64x32.totalSize; // fcrTransactionLog
-            header.fcrFileNodeListRoot = new FileChunkReference64x32Parser().DoDeserializeFromByteArray(byteArray, index);
+            header.fcrFileNodeListRoot = new FileChunkReference64x32Parser().DoDeserializeFromByteArray(reader, index);
 
             return header;
         }

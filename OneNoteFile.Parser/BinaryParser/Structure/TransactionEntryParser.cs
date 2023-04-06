@@ -4,13 +4,13 @@ namespace OneNoteFile.Parser.BinaryParser.Structure
 {
     internal class TransactionEntryParser
     {
-        internal static TransactionEntry DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal static TransactionEntry DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var transactionEntry = new TransactionEntry();
             var index = startIndex;
-            transactionEntry.srcID = BitConverter.ToUInt32(byteArray, index);
+            transactionEntry.srcID = reader.ReadUInt32FromPosition(index);
             index += TransactionEntry.srcIDSize;
-            transactionEntry.TransactionEntrySwitch = BitConverter.ToUInt32(byteArray, index);
+            transactionEntry.TransactionEntrySwitch = reader.ReadUInt32FromPosition(index);
             return transactionEntry;
         }
     }

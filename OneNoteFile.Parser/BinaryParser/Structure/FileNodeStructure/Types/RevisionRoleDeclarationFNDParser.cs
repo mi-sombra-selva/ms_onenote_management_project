@@ -6,14 +6,13 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure.Types
 {
     internal class RevisionRoleDeclarationFNDParser : FileNodeBaseParser
     {
-        internal override RevisionRoleDeclarationFND DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal override RevisionRoleDeclarationFND DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var revisionRoleDeclarationFND = new RevisionRoleDeclarationFND();
             var index = startIndex;
-            revisionRoleDeclarationFND.rid = ExtendedGUIDParser.DoDeserializeFromByteArray(byteArray, index);
+            revisionRoleDeclarationFND.rid = ExtendedGUIDParser.DoDeserializeFromByteArray(reader, index);
             index += ExtendedGUID.totalSize;
-            revisionRoleDeclarationFND.RevisionRole = new byte[RevisionRoleDeclarationFND.RevisionRoleSize];
-            Array.Copy(byteArray, index, revisionRoleDeclarationFND.RevisionRole, 0, RevisionRoleDeclarationFND.RevisionRoleSize);
+            revisionRoleDeclarationFND.RevisionRole = reader.ReadBytes(index, RevisionRoleDeclarationFND.RevisionRoleSize);
             return revisionRoleDeclarationFND;
         }
     }

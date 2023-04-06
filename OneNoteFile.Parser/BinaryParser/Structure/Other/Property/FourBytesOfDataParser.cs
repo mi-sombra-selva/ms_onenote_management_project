@@ -4,11 +4,10 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.Other.Property
 {
     internal class FourBytesOfDataParser : PropertyParser
     {
-        internal override FourBytesOfData DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal override FourBytesOfData DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var fourBytesOfData = new FourBytesOfData();
-            fourBytesOfData.Data = new byte[4];
-            Array.Copy(byteArray, startIndex, fourBytesOfData.Data, 0, 4);
+            fourBytesOfData.Data = reader.ReadBytes(startIndex, 4);
             return fourBytesOfData;
         }
     }

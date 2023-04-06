@@ -6,17 +6,17 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.Other.ObjectSpaceObject
 {
     internal class ObjectSpaceObjectStreamOfOSIDsParser
     {
-        internal static ObjectSpaceObjectStreamOfOSIDs DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal static ObjectSpaceObjectStreamOfOSIDs DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var objectSpaceObjectStreamOfOSIDs = new ObjectSpaceObjectStreamOfOSIDs();
             var index = startIndex;
-            objectSpaceObjectStreamOfOSIDs.Header = ObjectSpaceObjectStreamHeaderParser.DoDeserializeFromByteArray(byteArray, index);
+            objectSpaceObjectStreamOfOSIDs.Header = ObjectSpaceObjectStreamHeaderParser.DoDeserializeFromByteArray(reader, index);
             index += ObjectSpaceObjectStreamHeader.totalSize;
 
             objectSpaceObjectStreamOfOSIDs.Body = new CompactID[objectSpaceObjectStreamOfOSIDs.Header.Count];
             for (var i = 0; i < objectSpaceObjectStreamOfOSIDs.Header.Count; i++)
             {
-                var compactID = CompactIDParser.DoDeserializeFromByteArray(byteArray, index);
+                var compactID = CompactIDParser.DoDeserializeFromByteArray(reader, index);
                 objectSpaceObjectStreamOfOSIDs.Body[i] = compactID;
                 index += CompactID.totalSize;
             }

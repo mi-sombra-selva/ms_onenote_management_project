@@ -6,14 +6,13 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure.Types
 {
     internal class RevisionManifestListStartFNDParser : FileNodeBaseParser
     {
-        internal override RevisionManifestListStartFND DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        internal override RevisionManifestListStartFND DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var revisionManifestListStartFND = new RevisionManifestListStartFND();
             var index = startIndex;
-            revisionManifestListStartFND.gosid = ExtendedGUIDParser.DoDeserializeFromByteArray(byteArray, index);
+            revisionManifestListStartFND.gosid = ExtendedGUIDParser.DoDeserializeFromByteArray(reader, index);
             index += ExtendedGUID.totalSize;
-            revisionManifestListStartFND.nInstance = new byte[4];
-            Array.Copy(byteArray, index, revisionManifestListStartFND.nInstance, 0, 4);
+            revisionManifestListStartFND.nInstance = reader.ReadBytes(index, 4);
             return revisionManifestListStartFND;
         }
     }

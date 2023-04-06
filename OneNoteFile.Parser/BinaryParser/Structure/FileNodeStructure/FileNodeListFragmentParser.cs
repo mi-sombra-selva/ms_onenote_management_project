@@ -13,12 +13,12 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure
             this.size = size;
         }
 
-        public FileNodeListFragment DoDeserializeFromByteArray(byte[] byteArray, int startIndex)
+        public FileNodeListFragment DoDeserializeFromByteArray(BinaryReader reader, int startIndex)
         {
             var fileNodeListFragment = new FileNodeListFragment();
 
             var index = startIndex;
-            fileNodeListFragment.Header = FileNodeListHeaderParser.DoDeserializeFromByteArray(byteArray, index);
+            fileNodeListFragment.Header = FileNodeListHeaderParser.DoDeserializeFromByteArray(reader, index);
             index += FileNodeListHeader.totalSize;
 
             fileNodeListFragment.rgFileNodes = new List<FileNode>();
@@ -31,7 +31,7 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure
 
             do
             {
-                var fileNode = FileNodeParser.DoDeserializeFromByteArray(byteArray, index);
+                var fileNode = FileNodeParser.DoDeserializeFromByteArray(reader, index);
                 index += fileNode.FileNodeLen;
                 fileNodeSize += fileNode.FileNodeLen;
                 if (fileNode.FileNodeID != 0)
@@ -51,12 +51,11 @@ namespace OneNoteFile.Parser.BinaryParser.Structure.FileNodeStructure
             }
 
             var paddinglength = (int)size - 36 - fileNodeSize;
-            fileNodeListFragment.padding = new byte[paddinglength];
-            Array.Copy(byteArray, index, fileNodeListFragment.padding, 0, paddinglength);
+            fileNodeListFragment.padding = reader.ReadBytes(index, paddinglength);
             index += paddinglength;
-            fileNodeListFragment.nextFragment = new FileChunkReference64x32Parser().DoDeserializeFromByteArray(byteArray, index);
+            fileNodeListFragment.nextFragment = new FileChunkReference64x32Parser().DoDeserializeFromByteArray(reader, index);
             index += FileChunkReference64x32.totalSize;
-            fileNodeListFragment.footer = BitConverter.ToUInt64(byteArray, index);
+            fileNodeListFragment.footer = reader.ReadUInt64FromPosition(index);
 
             return fileNodeListFragment;
         }

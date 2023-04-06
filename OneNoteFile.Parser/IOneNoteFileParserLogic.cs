@@ -4,6 +4,6 @@ namespace OneNoteFile.Parser
 {
     internal interface IOneNoteFileParserLogic
     {
-        OneNoteRevisionStoreFile Parse(byte[] byteArray);
+        OneNoteRevisionStoreFile Parse(BinaryReader reader);
     }
 }
