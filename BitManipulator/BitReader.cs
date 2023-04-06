@@ -12,8 +12,8 @@ namespace BitManipulator
         internal BitReader(BinaryReader reader, long index)
         {
             _reader = reader;
-            _offset = index;
-            _startPosition = index;
+            _offset = (index * 8) - 1;
+            _startPosition = _offset;
             _length = reader.BaseStream.Length * 8;
         }
 
