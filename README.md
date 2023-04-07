@@ -1,9 +1,9 @@
 # OneNoteManagement
 
-The OneNoteFileManager library provides a way to read and manipulate OneNote documents. It includes methods for opening, modifying, and saving OneNote files, as well as retrieving text objects from within the document.
+The OneNoteManagementLibrary library provides a way to read and manipulate OneNote documents. It includes methods for opening, modifying, and saving OneNote files, as well as retrieving text objects from within the document.
 
 ## Getting Started
-To use the `OneNoteFileManager` library in your project, simply add a reference to the library and import the `OneNoteFileManager` namespace. Then create an instance of the `OneNoteFileManager` class using the path to the OneNote file you wish to work with.
+To use the `OneNoteManagementLibrary` library in your project, simply add a reference to the library and import the `OneNoteFileManager` namespace. Then create an instance of the `OneNoteFileManager` class using the path to the OneNote file you wish to work with.
 
 ```csharp
 using OneNoteFileManager;
