@@ -1,39 +1,39 @@
-# Описание решения
+## Solution Description
 
-Выбранное решение для работы с файлами OneNote - это библиотека на C#, которая предоставляет методы для открытия, изменения и сохранения документов OneNote, а также извлечения текстовых объектов из документа.
+The chosen solution for working with OneNote files is a C# library that provides methods for opening, modifying, and saving OneNote documents, as well as extracting textual objects from a document.
 
-Решение состоит из нескольких проектов:
-- `BitManipulator` - библиотека реализует битовый считыватель, который может использоваться для чтения битов из потока байтов.
-- `OneNoteFile.Model` - библиотека содержит описание структуры .one файла
-- `OneNoteFile.Parser` - библиотека предназначена для анализа структуры .one файла и извлечения данных из него.
-- `OneNoteManagementLibrary` - библиотека предоставляет основные методы для работы с .one файлом.
-- `OneNoteManagementApp` - является консольной утилитой, которая демонстрирует получение и вывод текстовых строк, находящихся в .one файле
+The solution consists of several projects:
+- **`BitManipulator`** – a library that implements a bit reader, which can be used to read bits from a byte stream.
+- **`OneNoteFile.Model`** – a library that describes the structure of a `.one` file.
+- **`OneNoteFile.Parser`** – a library designed to analyze the `.one` file structure and extract data from it.
+- **`OneNoteManagementLibrary`** – a library that provides core methods for working with `.one` files.
+- **`OneNoteManagementApp`** – a console utility that demonstrates retrieving and displaying text strings stored in a `.one` file.
 
-План действий для чтения и парсинга .one файла:
+### Action Plan for Reading and Parsing a `.one` File:
 
-1. Чтение заголовка файла (.one).
-2. Из заголовка файла получить адрес корневого списка элементов (RootFileNodeList).
-3. Чтение списка элементов и определение их типов.
-4. Из элементов с типом ObjectSpaceManifestListReferenceFND, формируем список ObjectSpaceManifestList.
-5. Чтение списка элементов и определение их типов.
-6. Из элементов с типом RevisionManifestListReferenceFND, формируем список RevisionManifestList.
-7. Чтение списка элементов и определение их типов.
-8. Из элементов с типом ObjectGroupListReferenceFND, формируем список ObjectGroupList.
-9. Обработка содержимого каждого элемента.
-10. Чтобы определить тип каждого элемента, проверяем значение jcid.index (ObjectDeclaration2RefCountFND -> ObjectDeclaration2Body -> JCID -> Index)
-11. Выбираем те элементы, у которых значение JCIDType.PageObjectMetaData
-12. Получаем список данных из ObjectDeclaration2Body -> PropertySet -> Body -> RgData
-13. Выбираем из списка данных значения тех, у кого тип PrtFourBytesOfLengthFollowedByData
-14. Если в списке данных встречается массив байт { 0,0,0,0,3 } , значит в этом списке будут не текстовые данные, а информация о дате/времени 
+1. Read the file header (`.one`).
+2. Extract the root element list address (`RootFileNodeList`) from the file header.
+3. Read the element list and determine their types.
+4. From elements of type `ObjectSpaceManifestListReferenceFND`, construct an `ObjectSpaceManifestList`.
+5. Read the element list and determine their types.
+6. From elements of type `RevisionManifestListReferenceFND`, construct a `RevisionManifestList`.
+7. Read the element list and determine their types.
+8. From elements of type `ObjectGroupListReferenceFND`, construct an `ObjectGroupList`.
+9. Process the contents of each element.
+10. To determine the type of each element, check the value of `jcid.index` (`ObjectDeclaration2RefCountFND -> ObjectDeclaration2Body -> JCID -> Index`).
+11. Select elements where `JCIDType` is `PageObjectMetaData`.
+12. Retrieve data from `ObjectDeclaration2Body -> PropertySet -> Body -> RgData`.
+13. Select values from the data list where the type is `PrtFourBytesOfLengthFollowedByData`.
+14. If the data list contains the byte array `{ 0,0,0,0,3 }`, it means that this list contains non-text data but rather date/time information.
 
-## Достоинства реализации
-- Соблюдается принцип единой ответственности
-- Используйте паттерн Dependency Injection (DI) для управления зависимостями.
-- Детали реализации парсинга файла скрыты, это упрощает использование библиотеки (видны только необходимые методы)
-- XML комментарии для публичных методов
-- Нет необходимости в использовании сторонних библиотек
-- Логика для битового считывателя, парсинга файла и библиотеки-менеджера не являются единым монолитом в одной библиотеке
+## Implementation Advantages
+- Follows the **Single Responsibility Principle (SRP)**.
+- Uses the **Dependency Injection (DI) pattern** to manage dependencies.
+- The file parsing implementation details are hidden, simplifying library usage (only necessary methods are exposed).
+- **XML comments** are provided for public methods.
+- No need for third-party libraries.
+- The logic for the **bit reader, file parser, and management library** is not combined into a single monolithic library.
 
-## Недостатки реализации
-- Многие части структуры .one файла не реализованы и при расширении логики работы с файлом, придётся снова изучать документацию и дополнять парсер.
-- Хотелось бы, чтобы класс-менеджер реализовывал интерфейс IDisposable, поскольку идёт работа с внешним ресурсом (файлом), но поскольку в данной версии реализовано только чтение, то я опустила этот момент.
+## Implementation Disadvantages
+- Many parts of the `.one` file structure are not yet implemented, meaning that expanding file processing logic will require further studying of the documentation and extending the parser.
+- Ideally, the **manager class should implement IDisposable** since it works with an external resource (a file). However, since this version only supports reading, this aspect has been omitted.
